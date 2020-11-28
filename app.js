@@ -14,10 +14,23 @@ app.use(express.urlencoded({ extended: true })); // Parsing POST params
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(session({
-  secret: 'top secret!',
+  secret: process.env.SESSION_SECRET,
   resave: true,
   saveUninitialized: true
 }));
+
+/**
+ * Express middleware to redirect unathenticated users to the
+ * homepage, if they visit a route that requires authentication.
+ */
+const authMiddleware = (req, res, next) => {
+  if (!req.session.authenticated) {
+    res.redirect('/');
+  }
+  else {
+    next();
+  }
+}
 
 // routes
 app.get('/', (req, res) => {
@@ -26,6 +39,10 @@ app.get('/', (req, res) => {
 
 app.get('/login', (req, res) => {
   res.render('login');
+});
+
+app.get('/special', authMiddleware, (req, res) => {
+  res.send('especial page');
 });
 
 app.post('/login', async(req, res) => {
@@ -38,11 +55,17 @@ app.post('/login', async(req, res) => {
   const passwordMatch = await bcrypt.compare(password, hashedPassword);
 
   if (passwordMatch) {
+    req.session.authenticated = true;
     res.redirect('/'); // Go back to home page
   }
   else {
     res.render('login', { loginError: true })
   }
+});
+
+app.get('/logout', (req, res) => {
+  res.session.destroy();
+  res.redirect('/');
 });
 
 // starting server

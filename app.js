@@ -4,8 +4,12 @@ const fetch = require('node-fetch');
 const bcrypt = require('bcrypt');
 const mysql = require('mysql');
 const User = require('./models/User.js');
+const middlewares = require('./route-middleware/index.js');
 
 require('dotenv').config(); // process.env variables
+
+// All UI routes will use these variables
+const commonUIMiddlewares = [middlewares.appLocals];
 
 const saltRounds = 10; // for bcrypt
 
@@ -19,43 +23,32 @@ app.use(session({
   saveUninitialized: true
 }));
 
-/**
- * Express middleware to redirect unathenticated users to the
- * homepage, if they visit a route that requires authentication.
- */
-const authMiddleware = (req, res, next) => {
-  if (!req.session.authenticated) {
-    res.redirect('/');
-  }
-  else {
-    next();
-  }
-}
 
 // routes
-app.get('/', (req, res) => {
+app.get('/', ...commonUIMiddlewares, (req, res) => {
   res.render('index');
 });
 
-app.get('/login', (req, res) => {
+app.get('/login', ...commonUIMiddlewares, (req, res) => {
   res.render('login');
 });
 
-app.get('/special', authMiddleware, (req, res) => {
-  res.send('especial page');
+app.get('/customer/:id', middlewares.auth, (req, res) => {
+  res.send('Customer profile page. This route requires authenticated user!');
 });
 
 app.post('/login', async(req, res) => {
   const username = req.body.username;
   const password = req.body.password;
 
-  let result = await User.checkUsername(username);
-  const hashedPassword = result.length ? result[0].password : '';
+  const [user] = await User.getByUsername(username);
+  const hashedPassword = user ? user.password : '';
 
   const passwordMatch = await bcrypt.compare(password, hashedPassword);
 
   if (passwordMatch) {
     req.session.authenticated = true;
+    req.session.customerId = user.customer_id;
     res.redirect('/'); // Go back to home page
   }
   else {
@@ -64,7 +57,7 @@ app.post('/login', async(req, res) => {
 });
 
 app.get('/logout', (req, res) => {
-  res.session.destroy();
+  req.session.destroy();
   res.redirect('/');
 });
 

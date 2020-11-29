@@ -3,19 +3,22 @@
   <body>
     <%- include('partials/nav.ejs') %>
 
-    <main>
-      <h1>Login</h1>
-      <form method="POST">
-        <label>
-          Username:
-          <input name="username" type="text" />
-        </label>
-        <label>
-          Password:
-          <input name="password" type="password" />
-        </label>
+    <main class="d-flex justify-content-center align-items-center">
+
+      <form id="login-form" method="POST">
+        <div>
+          <h1 class="h3 mb-3 font-weight-normal text-center">Login</h1>
+        </div>
+        <div class="form-label-group">
+          <label class="sr-only" for="username">Username</label>
+          <input class="form-control mb-3" id="username" name="username" placeholder="email address" type="text" required />
+        </div>
         
-        <button class="btn btn-info" type="submit">Login</button>
+        <div class="form-label-group">
+          <label class="sr-only" for="password">Password</label>
+            <input class="form-control mb-4" id="password" name="password" placeholder="password" type="password" />
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
       </form>
     </main>
 

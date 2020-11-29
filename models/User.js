@@ -1,6 +1,6 @@
 const createDBConnection = require('./db.js');
 
-const checkUsername = (username) => {
+const getByUsername = (username) => {
   const sql = `SELECT * FROM customers WHERE email = ?`;
   const conn = createDBConnection();
 
@@ -13,5 +13,5 @@ const checkUsername = (username) => {
 }
 
 module.exports = {
-  checkUsername: checkUsername
+  getByUsername
 }

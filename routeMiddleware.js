@@ -18,8 +18,10 @@ const appLocals = (req, res, next) => {
   // add authenticated to route variables
   res.locals = {
     authenticated: req.session.authenticated,
+    currentRoute: req.path,
     customerId: req.session.customerId
   };
+
   next();
 }
 

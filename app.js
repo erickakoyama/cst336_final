@@ -4,7 +4,7 @@ const fetch = require('node-fetch');
 const bcrypt = require('bcrypt');
 const mysql = require('mysql');
 const User = require('./models/User.js');
-const middlewares = require('./route-middleware/index.js');
+const middlewares = require('./routeMiddleware.js');
 
 require('dotenv').config(); // process.env variables
 
@@ -16,7 +16,7 @@ const saltRounds = 10; // for bcrypt
 const app = express();
 app.use(express.urlencoded({ extended: true })); // Parsing POST params
 app.set('view engine', 'ejs');
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: true,
@@ -33,8 +33,12 @@ app.get('/login', ...commonUIMiddlewares, (req, res) => {
   res.render('login');
 });
 
-app.get('/customer/:id', middlewares.auth, (req, res) => {
-  res.send('Customer profile page. This route requires authenticated user!');
+app.get('/customer/:id', [...commonUIMiddlewares, middlewares.auth], (req, res) => {
+  res.render('customerProfile');
+});
+
+app.get('/service/new', [...commonUIMiddlewares, middlewares.auth], (req, res) => {
+  res.render('scheduleService');
 });
 
 app.post('/login', async(req, res) => {

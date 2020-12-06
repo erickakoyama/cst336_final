@@ -2,12 +2,11 @@
   <a class="navbar-brand" href="/">Pet Daycare</a>
   
   <ul class="navbar-nav mr-auto">
-    <li class="nav-item">
-      <a class="nav-link" href="/service/new">Schedule Service</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="/services">Services</a>
-    </li>
+    <% if (authenticated) { %>
+      <li class="nav-item">
+        <a class="nav-link <%= currentRoute === '/service/new' ? 'active' : '' %>" href="/service/new">Schedule Service</a>
+      </li>
+    <% } %>
   </ul>
   
   <% if (authenticated) { %>

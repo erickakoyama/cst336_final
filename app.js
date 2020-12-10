@@ -65,6 +65,12 @@ app.get('/logout', (req, res) => {
   res.redirect('/');
 });
 
+
+
+
+
+
+
 // starting server
 app.listen(process.env.PORT, process.env.IP, () => {
   console.log('Express server is running...');

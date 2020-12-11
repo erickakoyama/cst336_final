@@ -4,24 +4,17 @@ $(document).ready(() => {
   
   // TODO: create click events for buttons or call from form submit
 
-  
-  function scheduleService(){
-      // get date, serviceId, petId
+  async function scheduleService(){
+      //get date formate = yyyy-mm-dd hh:mm:ss, serviceId, petId
+        // I wouldent worry about time zones for this project
       // fill in query url
       
-      // not sure if the dataType returned here is JSON if the data is a row
-      $.ajax({
-          method:"POST",
-          url:`/api/scheduleService?date=${}&serviceId=${}&petId=${}`,
-          success: function(result, status){
-              // returns true if successful
-              // display success message
-              // navigate or refresh
-          },
-          error: function(xhr, textStatus, errorThrown){
-              
-          }
-      });// ajax
-  }// scheduleService
+      //let url = `/api/scheduleService?date=${}&serviceId=${}&petId=${}`,
+      let url = `/api/scheduleService?date=2020-12-31&serviceId=1&petId=1`;
+      let response = await fetch(url);
+      let data = await response.json();
+      
+      // parse data and populate the page
+  }
   
 });

@@ -4,6 +4,7 @@ const fetch = require('node-fetch');
 const bcrypt = require('bcrypt');
 const mysql = require('mysql'); // is this needed if we already include it in the dbPool.js, and use pool here?
 const User = require('./models/User.js');
+const Services = require('./models/Services.js');
 const middlewares = require('./routeMiddleware.js');
 const pool = require('./dbPool.js');
 
@@ -25,30 +26,32 @@ app.use(session({
 }));
 
 
-// routes
+// Home Page
 app.get('/', ...commonUIMiddlewares, (req, res) => {
   res.render('index');
 });
 
+// Login Page
 app.get('/login', ...commonUIMiddlewares, (req, res) => {
   res.render('login');
 });
 
+// Customer Profile Page
 app.get('/customer/:id', [...commonUIMiddlewares, middlewares.auth], async(req, res) => {
   const customerWithPets = await User.getCustomerProfileById(req.params.id);
 
   res.render('customerProfile', { customer: customerWithPets });
 });
 
-app.get('/service/new:id', [...commonUIMiddlewares, middlewares.auth], (req, res) => {
-  // get pets
-  let petQuery = "select * from pets, services where pets.customer_id = ?";
-  let petParams = [req.params.id];
-  pool.query(petQuery, petParams, async function(err, rows, fields) {
-    if (err) throw (err);
-    console.log(rows);
-    res.render("scheduleService", { "rows": rows });
-  });
+// Schedule Service Page
+app.get('/service/new', [...commonUIMiddlewares, middlewares.auth], async(req, res) => {
+  // get services
+  const services = await Services.getServices();
+  // get pets owned by customer
+  const { customerId } = res.locals; // From middleware
+  const pets = await User.getPetsByCustomerId(customerId);
+
+  res.render("scheduleService", { customerId, customerPets: pets, services });
 }); // /services/new:id
 
 app.post('/login', async(req, res) => {

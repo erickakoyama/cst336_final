@@ -1,34 +1,22 @@
 const pool = require('../dbPool.js');
-
-const resolveCallback = (resolve) => (err, rows, fields) => {
-  if (err) { throw err; }
-  console
-  resolve(rows);
-}
+const getQueryResult = require('./getQueryResult.js');
 
 const getByUsername = (username) => {
-  const sql = `SELECT * FROM customers WHERE email = ?`;
+  const sql = 'SELECT * FROM customers WHERE email = ?';
+  return getQueryResult(sql, [username]);
+}
 
-  return new Promise((resolve, reject) => {
-    pool.query(sql, [username], resolveCallback(resolve));
-  });
+const getPetsByCustomerId = (customerId) => {
+  return getQueryResult('SELECT * FROM pets WHERE customer_id = ?', [customerId]);
 }
 
 const getCustomerProfileById = async(customerId) => {
-  const customerQuery = `SELECT * FROM customers WHERE customer_id = ?`;
-  const customerPetsQuery = `SELECT * FROM pets WHERE customer_id = ?`;
+  const customerQuery = 'SELECT * FROM customers WHERE customer_id = ?';
 
   // destructure out password, so we don't send it to the client
-  const [{ password, ...customer }] = await new Promise((resolve, reject) => {
-    pool.query(customerQuery, [customerId], (err, rows) => {
-      if (err) { throw err; }
-      resolve(rows);
-    });
-  });
+  const [{ password, ...customer }] = await getQueryResult(customerQuery, [customerId]);
 
-  const customerPets = await new Promise((resolve, reject) => {
-    pool.query(customerPetsQuery, [customerId], resolveCallback(resolve));
-  });
+  const customerPets = await getPetsByCustomerId(customerId);
 
   return {
     ...customer,
@@ -38,5 +26,6 @@ const getCustomerProfileById = async(customerId) => {
 
 module.exports = {
   getByUsername,
-  getCustomerProfileById
+  getCustomerProfileById,
+  getPetsByCustomerId
 }

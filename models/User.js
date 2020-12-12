@@ -18,7 +18,8 @@ const getCustomerProfileById = async(customerId) => {
   const customerQuery = `SELECT * FROM customers WHERE customer_id = ?`;
   const customerPetsQuery = `SELECT * FROM pets WHERE customer_id = ?`;
 
-  const [customer] = await new Promise((resolve, reject) => {
+  // destructure out password, so we don't send it to the client
+  const [{ password, ...customer }] = await new Promise((resolve, reject) => {
     pool.query(customerQuery, [customerId], (err, rows) => {
       if (err) { throw err; }
       resolve(rows);

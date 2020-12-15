@@ -5,9 +5,47 @@
 
     <main>
       <h1 class="text-center">Schedule New Service</h1>
-      <div class="text-center">This page is only accessible if the user is authenticated</div>
+      <div class="text-center">Avalible Serices: </div>
+      <%services.forEach(function(service){ %>
+        <div><%=service.name%>: </div>
+        <div><%=service.description%></div>
+        <div>Cost: $<%=service.cost%></div>
+        <br><br>
+      <% }); %>
     </main>
+    
 
+    <form id="serviceSchedule">
+      <!-- Select Pet Dropdown -->
+      <label for="petId">Choose a pet:</label>
+      <select id="petId" name="petId">
+        <%customerPets.forEach(function(pet){%>
+          <option value="<%=pet.pet_id%>"><%=pet.name%></option>
+        <% });%>
+      </select>
+      
+      <br><br>
+      
+      <!-- Choose Date -->
+      <label for="date">Date: </label>
+      <input id="date" type="date" name="date">
+      
+      <br><br>
+      
+      <!-- Choose Service -->
+      <label for="serviceId">Service: </label>
+      <select id="serviceId" name="serviceId">
+        <option value="1">Nail Trim</option>
+        <option value="2">Bath</option>
+      </select>
+      
+      <br><br>
+      
+      <!-- Submit -->
+      <button id="submit">Submit</button>
+      
+    </form>
+    
     <%- include('partials/footer.ejs') %>
     <script src="/js/scheduleService.js"></script>
   </body>

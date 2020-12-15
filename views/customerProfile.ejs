@@ -8,7 +8,7 @@
       <div class="text-center">This page is only accessible if the user is authenticated</div>
     </main>
 
-    <div id="customer">
+    <div id="customer" class="d-flex align-items-center justify-content-center">
       <img id="custPic" src="/img/userImage.png" alt="Customer Picture"/>
       <h2><input id="custFirstName" type="text" value="<%=customer.first_name%>" readonly></h2>
       <h2><input id="custLastName" type="text" value="<%=customer.last_name%>" readonly="true"></h2>
@@ -16,23 +16,24 @@
     
     <br><br>
     
-    <div id="custInfo">
+    <div id="custInfo" class="text-center">
       <h2>Email: <input id="custEmail" type="text" value="<%=customer.email%>" readonly="true"></h2>
       <h2>Phone: <input id="custPhone" type="text" value="<%=customer.phone%>" readonly="true"></h2>
       <h2>Address: <input id="custAdrOne" type="text" value="<%=customer.address_1%>" readonly="true"></h2>
       <%if(customer.address_2 != null){%>
         <h2>Address 2: <input id="custAdrTwo" type="text" value="<%=customer.address_2%>" readonly="true"></h2>
       <% };%>
-      <h2>Cit: <input id="custCity" type="text" value="<%=customer.city%>" readonly="true"></h2>
+      <h2>City: <input id="custCity" type="text" value="<%=customer.city%>" readonly="true"></h2>
       <h2>State: <input id="custState" type="text" value="<%=customer.state%>" readonly="true"></h2>
       <h2>Zip: <input id="custZip" type="text" value="<%=customer.zip%>" readonly="true"> </h2>
       <button id="edit" disalbed="false">Edit</button>
       <button id="submit" disabled="true">Submit</button>
     </div>
     
+    <div class="d-flex align-items-center justify-content-center">
     <%if(customer.pets != null){%>
-      <%customer.pets.forEach(function(pet){ %>
-        <div id="custPets">
+      <%customer.pets.forEach(function(pet, i){ %>
+        <div id="custPets" class="text-center">
           <img id="petPic" src="/img/petImage.png" alt="Pet Picture"/>
           <h2 id="petName">Name: <%=pet.name%></h2>
           <h2 id="petAge">Age: <%=pet.age_months%>m</h2>
@@ -44,7 +45,7 @@
     <% } else{%>
       <h2>No Current Pets</h2>
     <% };%>
-
+    </div>
     
     <%- include('partials/footer.ejs') %>
     <script src="/js/customerProfile.js"></script>

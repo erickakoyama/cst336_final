@@ -4,6 +4,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
+  background-color: #f7e7ce;
 }
 
 #login-form {

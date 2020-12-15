@@ -2,29 +2,33 @@
 $(document).ready(() => {
   console.log('scripts for customer profile page');
   
-  $("#checkIn").on("click", checkinPet(1, $("#checkIn").val()));
-  $("#checkOut").on("click", checkinPet(0, $("#checkIn").val()));
-  $("#edit").on("click", editMode(1));
-  $("#submit").on("click", updateProfile());
+  $("#checkIn").on("click", checkinPet);
+  $("#checkOut").on("click", checkinPet);
+  $("#edit").on("click", editMode);
+  $("#submit").on("click", updateProfile);
   
-  function editMode(val){
+  let val = 1;
+  
+  function editMode(){
     var elements = document.getElementsByTagName("INPUT");
-    console.log(elements);
     switch(val){
       case 0:
         for(var i = 0; i < elements.length; i++){
           elements[i].readOnly=true;
         };
+        document.getElementById("submit").disabled=true;
+        val = 1;
         break;
       case 1:
         for(var i = 0; i < elements.length; i++){
           elements[i].readOnly=false;
         };
         document.getElementById("submit").disabled=false;
+        val = 0;
         break;
     }
     
-  }
+  };
   
   async function updateProfile(){
     // get fn, ln, email, phone, addr1, addr2, city, state, zip
@@ -40,17 +44,18 @@ $(document).ready(() => {
     const state = $("#custState").val();
     const zip = $("custZip").val();
     
+    
     let url = `/api/updateProfile?fn=${fn}&ln=${ln}&email=${email}&phone=${phone}&addr1=${addr1}&addr2=${addr2}&city=${city}&state=${state}&zip=${zip}`;
     //let url = "/api/updateProfile?fn=Roger";
     let response = await fetch(url);
     let data = await response.json();
     
-    editMode(0);
+    
     // returns the customer, update the page
     
-  }// updateProfile
+  };
   
-  async function checkinPet(action, petId){
+  async function checkinPet(){
     // get the pet id and action
     //let url = `/api/checkin?action=${}&petId=${}`;
     let url = `/api/checkin?action=${action}&petId=${petId}`;
@@ -70,6 +75,6 @@ $(document).ready(() => {
     
     // returns 0 or 1
     
-  }// checkinPet
+  };
   
 });

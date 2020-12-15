@@ -49,8 +49,6 @@ app.get('/service/new', [...commonUIMiddlewares, middlewares.auth], async(req, r
   // get pets owned by customer
   const { customerId } = res.locals; // From middleware
   const pets = await User.getPetsByCustomerId(customerId);
-  console.log(pets);
-  console.log(services);
   res.render("scheduleService", { customerId, customerPets: pets, services });
 }); // /services/new:id
 
@@ -86,7 +84,6 @@ app.put("/api/updateProfile", function(req, res) {
   // returns updated customer
   pool.query(custQuery, custParam, function(err, rows, fields) {
     if (err) throw err;
-    console.log(rows);
     res.send(rows);
   });
 
@@ -94,6 +91,7 @@ app.put("/api/updateProfile", function(req, res) {
 
 // schedules selected pet for selected service
 app.post("/api/scheduleService", function(req, res) {
+  console.log("in the api");
   let sqlQuery = "INSERT INTO schedule (date, service_id, pet_id) VALUES (?,?,?)";
   let sqlParams = [req.body.date, req.body.serviceId, req.body.petId];
   pool.query(sqlQuery, sqlParams, function(err, rows, fields) {
@@ -104,7 +102,6 @@ app.post("/api/scheduleService", function(req, res) {
 
 // checks in a pet based on id
 app.put("/api/checkin/:action/:petId", function(req, res) {
-  console.log("F");
   let sqlQuery;
   let sqlParams;
   let status = req.params.action ? 1 : 0;
@@ -121,7 +118,6 @@ app.put("/api/checkin/:action/:petId", function(req, res) {
 
   pool.query(sqlQuery, sqlParams, function(err, rows, fields) {
     if (err) throw err;
-    console.log(rows)
     res.send(status); // checkin status
   });
 

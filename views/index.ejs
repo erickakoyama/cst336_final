@@ -3,11 +3,66 @@
   <body>
     <%- include('partials/nav.ejs') %>
 
-    <main>
-      <h1 class="text-center">Pet Daycare</h1>
-      <div class="text-center">This is the homepage</div>
-    </main>
+    <div class="jumbotron">
+      <h1 class="display-5 text-center">Pet Daycare</h1>
+    </div>
+    
+    <h1 class="text-center">Welcome!</h1>
+    
+    <br><br>
+    
+    <h2 class="text-center">Current visitors :</h2>
+    
+    <br><br>
+    
+    <div class ="mx-auto w-75 row border border-dark" id="container">
+      <% pets.forEach(function(pet, i){ %>
+        <div class="col">
+          <div class="d-flex justify-content-center align-items-center">
+            <img src="/img/petImage.png"/>
+            <div>
+              <label id="petName"><%=pet.name%></label>
+              <br>
+              <label id="petAge"><%=pet.age_months%></label>
+              <br>
+              <label id="petBreed"><%=pet.breed%></label>
+              <br>
+            </div>
+          </div>
+        </div>
+      <% })%>
+    </div>
+    
+    <br><br>
+    
+    <div class="container">
+      <div class="row text-center">
+        <div class="col">
+          <p><strong>About Us: </strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut id metus dapibus, posuere risus sollicitudin, aliquet tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur fringilla, ex vel fermentum volutpat, nisl eros hendrerit nunc, nec maximus mi massa vel leo. Cras nec sem vel ligula tristique tincidunt. Aenean sagittis vehicula arcu, vel porta augue rhoncus vitae. Pellentesque quis velit dignissim, placerat dolor ut, vestibulum quam. Duis accumsan nulla congue, fermentum tellus a, efficitur orci. Vestibulum id sem tellus. Curabitur viverra lacus ac maximus imperdiet. Nulla eget faucibus diam. Aliquam ipsum ex, ultricies sed rhoncus ut, venenatis posuere lacus.</p>
+        </div>
+        <div class="col">
+          <img id="shrinkSmall" src="/img/aboutUs.png"/>
+        </div>
+      </div>
+    </div>
 
+    <br><br>
+    
+    <h4 class="text-center">Services :</h4>
+    <br>
+    <div class="container">
+      <div class="row text-center">
+        <div class="col">
+          <p><strong>Bath: </strong>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tristique euismod porttitor. Ut consectetur nisl lorem, sit amet aliquet massa posuere at. Nullam mauris dui, tempor ut dui sed, tempus varius sem. Nam ornare mauris eu turpis varius imperdiet. Sed a felis sed lorem ullamcorper aliquam. Integer in viverra metus.</p>
+          <p><strong>Cost: $35</strong></p>
+        </div>
+        <div class="col">
+          <p><strong>Nail Trim: </strong>Sed dignissim nisl nulla, at tristique odio eleifend at. Sed vulputate in lectus viverra laoreet. Fusce a ligula risus. Nulla arcu orci, accumsan eu lectus eget, sollicitudin mollis sem. Curabitur sed neque vel libero placerat dignissim. Phasellus vestibulum semper ex, nec efficitur erat viverra ut. Duis leo nulla, fermentum quis.</p>
+          <p><strong>Cost: $20</strong></p>
+        </div>
+      </div>
+    </div>
+    
     <%- include('partials/footer.ejs') %>
   </body>
 

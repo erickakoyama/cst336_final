@@ -5,10 +5,8 @@
 
     <main>
       <h1 class="text-center">Customer Profile</h1>
-      <div class="text-center">This page is only accessible if the user is authenticated</div>
-    </main>
-
-    <div id="customer" class="d-flex align-items-center justify-content-center">
+      
+      <div id="customer" class="d-flex align-items-center justify-content-center">
       <img id="custPic" src="/img/userImage.png" alt="Customer Picture"/>
       <h2><input id="custFirstName" type="text" value="<%=customer.first_name%>" readonly></h2>
       <h2><input id="custLastName" type="text" value="<%=customer.last_name%>" readonly="true"></h2>
@@ -46,6 +44,7 @@
       <h2>No Current Pets</h2>
     <% };%>
     </div>
+    </main>
     
     <%- include('partials/footer.ejs') %>
     <script src="/js/customerProfile.js"></script>

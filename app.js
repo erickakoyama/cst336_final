@@ -92,8 +92,8 @@ app.put("/api/updateProfile", function(req, res) {
 // schedules selected pet for selected service
 app.post("/api/scheduleService", function(req, res) {
   console.log("in the api");
-  let sqlQuery = "INSERT INTO schedule (date, service_id, pet_id) VALUES (?,?,?)";
-  let sqlParams = [req.body.date, req.body.serviceId, req.body.petId];
+  const sqlQuery = "INSERT INTO schedule (date, service_id, pet_id) VALUES (?,?,?)";
+  const sqlParams = [req.body.date, req.body.serviceId, req.body.petId];
   pool.query(sqlQuery, sqlParams, function(err, rows, fields) {
     if (err) throw err;
     res.redirect("/"); // returns true if success, show success image / text
@@ -101,24 +101,24 @@ app.post("/api/scheduleService", function(req, res) {
 }); // api/scheduleService
 
 // checks in a pet based on id
-app.put("/api/checkin/:action/:petId", function(req, res) {
+app.put("/api/checkin", function(req, res) {
   let sqlQuery;
   let sqlParams;
-  let status = req.params.action ? 1 : 0;
+  let status = req.body.action ? 1 : 0;
   switch (status) {
     case 0:
       sqlQuery = "UPDATE pets SET checked_in = ? WHERE pet_id = ?";
-      sqlParams = [status, req.params.petId];
+      sqlParams = [status, req.body.petId];
       break;
     case 1:
       sqlQuery = "UPDATE pets SET checked_in = ? WHERE pet_id = ?";
-      sqlParams = [status, req.params.petId];
+      sqlParams = [status, req.body.petId];
       break;
   }
 
   pool.query(sqlQuery, sqlParams, function(err, rows, fields) {
     if (err) throw err;
-    res.send(status); // checkin status
+    res.send(rows);
   });
 
 }); // api/checkin

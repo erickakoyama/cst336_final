@@ -100,8 +100,14 @@ app.put("/api/updateProfile", commonUIMiddlewares, function(req, res) {
 
 // schedules selected pet for selected service
 app.post("/api/scheduleService", function(req, res) {
+<<<<<<< HEAD
   const sqlQuery = "INSERT INTO schedule (date, service_id, pet_id) VALUES (?,?,?)";
   const sqlParams = [req.body.date, req.body.serviceId, req.body.petId];
+=======
+  console.log("in the api");
+  let sqlQuery = "INSERT INTO schedule (date, service_id, pet_id) VALUES (?,?,?)";
+  let sqlParams = [req.body.date, req.body.serviceId, req.body.petId];
+>>>>>>> ff2d8055cefdf8dd0f01ac8899b15bb3128f2c34
   pool.query(sqlQuery, sqlParams, function(err, rows, fields) {
     if (err) throw err;
     res.redirect("/"); // returns true if success, show success image / text
@@ -114,7 +120,11 @@ app.put("/api/checkin", function(req, res) {
   let sqlParams = [req.body.action, req.body.petId];
   pool.query(sqlQuery, sqlParams, function(err, rows, fields) {
     if (err) throw err;
+<<<<<<< HEAD
     res.send(rows);
+=======
+    res.send(status); // checkin status
+>>>>>>> ff2d8055cefdf8dd0f01ac8899b15bb3128f2c34
   });
 }); // api/checkin
 

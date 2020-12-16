@@ -3,6 +3,12 @@
   <body>
     <%- include('partials/nav.ejs') %>
 
+    <% if (loginError === 'true') { %>
+      <div class="alert alert-danger ml-5 mr-5" role="alert">
+        Wrong credentials!
+       </div>
+    <% } %>
+    
     <main class="d-flex justify-content-center align-items-center">
 
       <form id="login-form" method="POST">

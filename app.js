@@ -31,13 +31,13 @@ app.use(session({
 
 
 // Home Page
-app.get('/', ...commonUIMiddlewares, (req, res) => {
+app.get('/', commonUIMiddlewares, (req, res) => {
   res.render('index');
 });
 
 // Login Page
-app.get('/login',commonUIMiddlewares, (req, res) => {
-  res.render('login');
+app.get('/login', commonUIMiddlewares, (req, res) => {
+  res.render('login', { loginError: req.query.loginError });
 });
 
 // Customer Profile Page
@@ -71,7 +71,7 @@ app.post('/login', async(req, res) => {
     res.redirect('/'); // Go back to home page
   }
   else {
-    res.render('login', { loginError: true })
+    res.redirect('login?loginError=true');
   }
 });
 
@@ -81,7 +81,7 @@ app.get('/logout', (req, res) => {
 });
 
 // updates and returns customer (no pet info)
-app.put("/api/updateProfile",commonUIMiddlewares, function(req, res) {
+app.put("/api/updateProfile", commonUIMiddlewares, function(req, res) {
   let custQuery = "UPDATE customers SET first_name = ?, last_name = ?, email = ?, phone = ?, address_1 = ?, address_2 = ?, city = ?, state = ?, zip = ? WHERE customer_id = ?";
   let custParam = [req.body.fn, req.body.ln, req.body.email, req.body.phone, req.body.addr1, req.body.addr2, req.body.city, req.body.state, req.body.zip, res.locals.customerId];
 
@@ -95,7 +95,6 @@ app.put("/api/updateProfile",commonUIMiddlewares, function(req, res) {
 
 // schedules selected pet for selected service
 app.post("/api/scheduleService", function(req, res) {
-  console.log("in the api");
   const sqlQuery = "INSERT INTO schedule (date, service_id, pet_id) VALUES (?,?,?)";
   const sqlParams = [req.body.date, req.body.serviceId, req.body.petId];
   pool.query(sqlQuery, sqlParams, function(err, rows, fields) {

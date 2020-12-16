@@ -3,6 +3,7 @@ const session = require('express-session');
 const fetch = require('node-fetch');
 const bcrypt = require('bcrypt');
 const mysql = require('mysql'); // is this needed if we already include it in the dbPool.js, and use pool here?
+const Pets = require('./models/Pets.js');
 const User = require('./models/User.js');
 const Services = require('./models/Services.js');
 const middlewares = require('./routeMiddleware.js');
@@ -31,8 +32,10 @@ app.use(session({
 
 
 // Home Page
-app.get('/', commonUIMiddlewares, (req, res) => {
-  res.render('index');
+app.get('/', commonUIMiddlewares, async(req, res) => {
+  const pets = await Pets.getAllPets();
+
+  res.render('index', { pets });
 });
 
 // Login Page

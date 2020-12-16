@@ -34,8 +34,9 @@ app.use(session({
 // Home Page
 app.get('/', commonUIMiddlewares, async(req, res) => {
   const pets = await Pets.getAllPets();
-
   res.render('index', { pets });
+
+
 });
 
 // Login Page
@@ -112,7 +113,7 @@ app.put("/api/checkin", function(req, res) {
   let sqlParams = [req.body.action, req.body.petId];
   pool.query(sqlQuery, sqlParams, function(err, rows, fields) {
     if (err) throw err;
-    res.send(rows);
+    res.send(rows); // checkin status
   });
 }); // api/checkin
 

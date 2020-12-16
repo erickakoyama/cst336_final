@@ -2,7 +2,7 @@
 $(document).ready(function(){
   console.log('scripts for schedule service page');
   
- $("#submit").on("click", scheduleService);
+ $("#serviceSchedule").on("submit",scheduleService);
 
   async function scheduleService(){
     alert("button was clicked");
@@ -10,11 +10,19 @@ $(document).ready(function(){
     const date = $("#date").val();
     const serviceId = $("#serviceId").val();
       
-    let url = `/api/scheduleService?date=${date}&serviceId=${serviceId}&petId=${petId}`;
-    let response = await fetch(url);
+    let url = `/api/scheduleService`;
+    let response = await fetch(url, {
+        body: JSON.stringify({ petId: petId, date: date, serviceId: serviceId }),
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+      }
+    );
     let data = await response.json();
-      
-      // parse data and populate the page
-  }
+    
+    if(data){
+      $("#scheduleSuccess").html("You've Sucessfuly Scheduled a Pet!");
+    }
+    
+  }// scheduleService
   
 });

@@ -2,8 +2,8 @@
 $(document).ready(() => {
   console.log('scripts for customer profile page');
 
-  $("#checkIn").on("click", checkinPet);
-  $("#checkOut").on("click", checkinPet);
+  $(".checkInOut").on("click", function(){checkinPet(this);});
+  // $("#checkOut").on("click", function(){checkinPet(this,0);});
   $("#edit").on("click", editMode);
   $("#submit").on("click", updateProfile);
 
@@ -55,33 +55,29 @@ $(document).ready(() => {
 
   };
 
-  async function checkinPet() {
-    const action = 1;
-    const petId = 2;
+  async function checkinPet(btn) {
+    let action = $(btn).data("status") == 1 ? 0 : 1;
+    let petId = $(btn).val();
     // get the pet id and action
     //let url = `/api/checkin?action=${}&petId=${}`;
     let url = `/api/checkin`;
     let response = await fetch(
       url, {
-        body: JSON.stringify({ action: 1, petId: 2 }),
-        method: 'PUT'
+        body: JSON.stringify({ action: action, petId: petId }),
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
       }
     );
     let data = await response.json();
-    switch (action) {
-      case 0:
-        document.getElementById("checkIn").style.disabled = false;
-        document.getElementById("checkOut").style.disabled = true;
-        break;
-      case 1:
-        document.getElementById("checkIn").style.disabled = true;
-        document.getElementById("checkOut").style.disabled = false;
-        break;
+    
+    if(action == 1){
+      $(btn).data("status", 1);
+      $(btn).html("Check Out");
+    }else{
+      $(btn).data("status", 0);
+      $(btn).html("Check In");
     }
-
-
-    // returns 0 or 1
-
-  };
+    
+  };// checkinPet
 
 });

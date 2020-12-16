@@ -7,6 +7,7 @@ const User = require('./models/User.js');
 const Services = require('./models/Services.js');
 const middlewares = require('./routeMiddleware.js');
 const pool = require('./dbPool.js');
+var bodyParser = require('body-parser');
 
 require('dotenv').config(); // process.env variables
 
@@ -16,7 +17,10 @@ const commonUIMiddlewares = [middlewares.appLocals];
 const saltRounds = 10; // for bcrypt
 
 const app = express();
-app.use(express.urlencoded({ extended: true })); // Parsing POST params
+// Parsing POST params
+app.use(bodyParser.urlencoded({ extended: true })); // Parsing POST params
+// parse application/json
+app.use(bodyParser.json());
 app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 app.use(session({
@@ -102,27 +106,13 @@ app.post("/api/scheduleService", function(req, res) {
 
 // checks in a pet based on id
 app.put("/api/checkin", function(req, res) {
-  let sqlQuery;
-  let sqlParams;
-  let status = req.body.action ? 1 : 0;
-  switch (status) {
-    case 0:
-      sqlQuery = "UPDATE pets SET checked_in = ? WHERE pet_id = ?";
-      sqlParams = [status, req.body.petId];
-      break;
-    case 1:
-      sqlQuery = "UPDATE pets SET checked_in = ? WHERE pet_id = ?";
-      sqlParams = [status, req.body.petId];
-      break;
-  }
-
+  let sqlQuery = "UPDATE pets SET checked_in = ? WHERE pet_id = ?";
+  let sqlParams = [req.body.action, req.body.petId];
   pool.query(sqlQuery, sqlParams, function(err, rows, fields) {
     if (err) throw err;
     res.send(rows);
   });
-
 }); // api/checkin
-
 
 // starting server
 app.listen(process.env.PORT, process.env.IP, () => {

@@ -36,8 +36,8 @@
           <h2 id="petName">Name: <%=pet.name%></h2>
           <h2 id="petAge">Age: <%=pet.age_months%>m</h2>
           <h2 id="petBreed">Breed: <%=pet.breed%></h2>
-          <button id="checkIn" value="<%=pet.pet_id%>" disalbed="false">Check In</button>
-          <button id="checkOut" value="<%=pet.pet_id%>" disabled="true">Check Out</button>
+          <button class="checkInOut" value="<%=pet.pet_id%>" data-status="<%=pet.checked_in%>"><%=pet.checked_in == 0? "Check In" : "Check Out"%></button>
+          <!--<button id="checkOut" value="<%=pet.pet_id%>" disabled="true">Check Out</button>-->
         </div>
       <% }); %>
     <% } else{%>

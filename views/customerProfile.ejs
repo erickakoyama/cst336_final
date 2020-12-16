@@ -8,22 +8,20 @@
       
       <div id="customer" class="d-flex align-items-center justify-content-center">
       <img id="custPic" src="/img/userImage.png" alt="Customer Picture"/>
-      <h2><input id="custFirstName" type="text" value="<%=customer.first_name%>" readonly></h2>
-      <h2><input id="custLastName" type="text" value="<%=customer.last_name%>" readonly="true"></h2>
+      <label><input id="custFirstName" type="text" value="<%=customer.first_name%>" readonly></label>
+      <label><input id="custLastName" type="text" value="<%=customer.last_name%>" readonly="true"></label>
     </div>
     
     <br><br>
     
     <div id="custInfo" class="text-center">
-      <h2>Email: <input id="custEmail" type="text" value="<%=customer.email%>" readonly="true"></h2>
-      <h2>Phone: <input id="custPhone" type="text" value="<%=customer.phone%>" readonly="true"></h2>
-      <h2>Address: <input id="custAdrOne" type="text" value="<%=customer.address_1%>" readonly="true"></h2>
-      <%if(customer.address_2 != null){%>
-        <h2>Address 2: <input id="custAdrTwo" type="text" value="<%=customer.address_2%>" readonly="true"></h2>
-      <% };%>
-      <h2>City: <input id="custCity" type="text" value="<%=customer.city%>" readonly="true"></h2>
-      <h2>State: <input id="custState" type="text" value="<%=customer.state%>" readonly="true"></h2>
-      <h2>Zip: <input id="custZip" type="text" value="<%=customer.zip%>" readonly="true"> </h2>
+      <label>Email: <input id="custEmail" type="text" value="<%=customer.email%>" readonly="true"></label>
+      <label>Phone: <input id="custPhone" type="text" value="<%=customer.phone%>" readonly="true"></label>
+      <label>Address: <input id="custAdrOne" type="text" value="<%=customer.address_1%>" readonly="true"></label>
+      <label>Address 2: <input id="custAdrTwo" type="text" value="<%=customer.address_2%>" readonly="true"></label>
+      <label>City: <input id="custCity" type="text" value="<%=customer.city%>" readonly="true"></label>
+      <label>State: <input id="custState" type="text" value="<%=customer.state%>" readonly="true"></label>
+      <label>Zip: <input id="custZip" type="text" value="<%=customer.zip%>" readonly="true"> </label>
       <button id="edit" disalbed="false">Edit</button>
       <button id="submit" disabled="true">Submit</button>
     </div>
@@ -33,15 +31,15 @@
       <%customer.pets.forEach(function(pet, i){ %>
         <div id="custPets" class="text-center">
           <img id="petPic" src="/img/petImage.png" alt="Pet Picture"/>
-          <h2 id="petName">Name: <%=pet.name%></h2>
-          <h2 id="petAge">Age: <%=pet.age_months%>m</h2>
-          <h2 id="petBreed">Breed: <%=pet.breed%></h2>
+          <label id="petName">Name: <%=pet.name%></label>
+          <label id="petAge">Age: <%=pet.age_months%>m</label>
+          <label id="petBreed">Breed: <%=pet.breed%></label>
           <button class="checkInOut" value="<%=pet.pet_id%>" data-status="<%=pet.checked_in%>"><%=pet.checked_in == 0? "Check In" : "Check Out"%></button>
           <!--<button id="checkOut" value="<%=pet.pet_id%>" disabled="true">Check Out</button>-->
         </div>
       <% }); %>
     <% } else{%>
-      <h2>No Current Pets</h2>
+      <label>No Current Pets</label>
     <% };%>
     </div>
     </main>

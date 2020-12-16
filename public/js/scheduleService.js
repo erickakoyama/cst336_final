@@ -5,7 +5,6 @@ $(document).ready(function(){
  $("#serviceSchedule").on("submit",scheduleService);
 
   async function scheduleService(){
-    alert("button was clicked");
     const petId = $("#petId").val();
     const date = $("#date").val();
     const serviceId = $("#serviceId").val();

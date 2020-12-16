@@ -36,7 +36,7 @@ app.get('/', ...commonUIMiddlewares, (req, res) => {
 });
 
 // Login Page
-app.get('/login', ...commonUIMiddlewares, (req, res) => {
+app.get('/login',commonUIMiddlewares, (req, res) => {
   res.render('login');
 });
 
@@ -81,9 +81,9 @@ app.get('/logout', (req, res) => {
 });
 
 // updates and returns customer (no pet info)
-app.put("/api/updateProfile", function(req, res) {
-  let custQuery = "UPDATE customers WHERE customer_id = SET first_name = ?, last_name = ?, email = ?, phone = ?, address_1 = ?, address_2 = ?, city = ?, sate = ?, zip = ?";
-  let custParam = [req.query.customerId, req.query.fn, req.query.ln, req.query.email, req.query.phone, req.query.addr1, req.query.addr2, req.query.city, req.query.state, req.query.zip];
+app.put("/api/updateProfile",commonUIMiddlewares, function(req, res) {
+  let custQuery = "UPDATE customers SET first_name = ?, last_name = ?, email = ?, phone = ?, address_1 = ?, address_2 = ?, city = ?, state = ?, zip = ? WHERE customer_id = ?";
+  let custParam = [req.body.fn, req.body.ln, req.body.email, req.body.phone, req.body.addr1, req.body.addr2, req.body.city, req.body.state, req.body.zip, res.locals.customerId];
 
   // returns updated customer
   pool.query(custQuery, custParam, function(err, rows, fields) {

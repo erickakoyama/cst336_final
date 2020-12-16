@@ -3,28 +3,27 @@ $(document).ready(() => {
   console.log('scripts for customer profile page');
 
   $(".checkInOut").on("click", function(){checkinPet(this);});
-  // $("#checkOut").on("click", function(){checkinPet(this,0);});
   $("#edit").on("click", editMode);
   $("#submit").on("click", updateProfile);
 
-  let val = 1;
+  let hideElements = 1;
 
   function editMode() {
-    var elements = document.getElementsByTagName("INPUT");
-    switch (val) {
+    var elements = document.getElementsByTagName("input");
+    switch (hideElements) {
       case 0:
         for (var i = 0; i < elements.length; i++) {
           elements[i].readOnly = true;
         };
         document.getElementById("submit").disabled = true;
-        val = 1;
+        hideElements = 1;
         break;
       case 1:
         for (var i = 0; i < elements.length; i++) {
           elements[i].readOnly = false;
         };
         document.getElementById("submit").disabled = false;
-        val = 0;
+        hideElements = 0;
         break;
     }
 
@@ -42,18 +41,20 @@ $(document).ready(() => {
     const addr2 = $("#custAdrTwo").val();
     const city = $("#custCity").val();
     const state = $("#custState").val();
-    const zip = $("custZip").val();
+    const zip = $("#custZip").val();
 
 
-    let url = `/api/updateProfile?fn=${fn}&ln=${ln}&email=${email}&phone=${phone}&addr1=${addr1}&addr2=${addr2}&city=${city}&state=${state}&zip=${zip}`;
-    //let url = "/api/updateProfile?fn=Roger";
-    let response = await fetch(url);
+    let url = `/api/updateProfile`;
+    let response = await fetch(url,
+    {
+        method: 'PUT',
+        body: JSON.stringify({ fn: fn, ln: ln, email:email, phone: phone, addr1: addr1, addr2:addr2, city:city, state:state, zip:zip }),
+        headers: {'Content-Type': 'application/json'},
+    });
     let data = await response.json();
-
-
-    // returns the customer, update the page
-
-  };
+    hideElements = 0;
+    editMode();
+  }
 
   async function checkinPet(btn) {
     let action = $(btn).data("status") == 1 ? 0 : 1;

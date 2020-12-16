@@ -34,8 +34,10 @@ app.use(session({
 // Home Page
 app.get('/', commonUIMiddlewares, async(req, res) => {
   const pets = await Pets.getAllPets();
-
+  console.log(pets);
   res.render('index', { pets });
+  
+  
 });
 
 // Login Page
